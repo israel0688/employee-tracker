@@ -7,12 +7,55 @@ const db = require('./db/database');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Use apiRoutes
-app.use('/api', apiRoutes);
+// Get all roles
+app.get('/api/role', (req, res) => {
+  const sql = `SELECT * FROM role`;
+  const params = [];
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
 
-// Default response for any other request (Not Found)
-app.use((req, res) => {
-  res.status(404).end();
+    res.json({
+      message: 'success',
+      data: rows
+    });
+  });
+});
+
+// Get all departments
+app.get('/api/department', (req, res) => {
+  const sql = `SELECT * FROM department`;
+  const params = [];
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    res.json({
+      message: 'success',
+      data: rows
+    });
+  });
+});
+
+// Get all employees
+app.get('/api/employee', (req, res) => {
+  const sql = `SELECT * FROM employee`;
+  const params = [];
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    res.json({
+      message: 'success',
+      data: rows
+    });
+  });
 });
   
 // Start server after DB connection
