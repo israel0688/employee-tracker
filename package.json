@@ -28,6 +28,7 @@
     "sqlite3": "^4.2.0"
   },
   "devDependencies": {
+    "inquirer": "^7.1.0",
     "jest": "^26.0.1"
   }
 }
