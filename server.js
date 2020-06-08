@@ -38,9 +38,9 @@ app.get('/api/role', (req, res) => {
 
 // Add a role
 app.post('/api/role', ({ body }, res) => {
-  const sql = `INSERT INTO role (title, salary, department_id,) 
+  const sql = `INSERT INTO role (title, salary, department_id) 
   VALUES (?,?,?)`;
-const params = [body.title, bode.salary, body.department_id];
+const params = [body.title, body.salary, body.department_id];
 // ES5 function, not arrow function, to use `this`
 db.run(sql, params, function(err, result) {
 if (err) {
@@ -129,11 +129,30 @@ id: this.lastID
 });
 });
 });
+
+// Change employee role
+app.put('/api/employee/:id', (req, res) => {
+  const sql = `UPDATE employee SET role_id = ? 
+               WHERE id = ?`;
+  const params = [req.body.role_id, req.params.id];
+
+  db.run(sql, params, function(err, result) {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+
+    res.json({
+      message: 'success',
+      data: req.body,
+      changes: this.changes
+    });
+  });
+});
   
 // Start server after DB connection
 db.on('open', () => {
     app.listen(PORT, () => {
-        console.log(table);
         console.log(`Server running on port ${PORT}`);
     });
 });
